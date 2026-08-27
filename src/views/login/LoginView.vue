@@ -27,12 +27,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-
+import {reactive, ref} from 'vue'
+import { useRouter } from 'vue-router'
 const message = ref('')
-
+const router = useRouter();
 function handleSubmit() {
-  message.value = '静态页面已完成，登录逻辑将在后续课程实现'
+  router.push('/admin/home')
 }
 const form = reactive({
   username: '',
