@@ -3,7 +3,7 @@
     <div class="title">学习后台</div>
     <div class="container">
       <div class="side">
-        <RouterLink to="/admin/home" class="">首页</RouterLink>
+        <RouterLink v-for="item in visibleMenus" :to="getMenuPath(item.path)" class="link" :key="item.name">{{ item.title }}</RouterLink>
       </div>
 
       <div class="main">
@@ -15,6 +15,16 @@
   </div>
 </template>
 <script setup lang="ts">
+import {adminMenuRules} from "@/mock/adminMenu";
+
+
+const visibleMenus = adminMenuRules.filter(
+    (item) => item.type === 'menu' && item.menuType === 'tab',
+)
+
+function getMenuPath(path: string) {
+  return `/admin/${path.replace(':id', '8')}`
+}
 </script>
 
 
@@ -51,5 +61,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.link{
+  display: block;
+  margin-top: 20px;
 }
 </style>
