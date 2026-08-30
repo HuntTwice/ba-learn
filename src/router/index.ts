@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import { adminMenuRules } from '@/mock/adminMenu'
-import { registerDynamicRoutes } from './dynamic'
+import {adminMenuRules} from '@/mock/adminMenu'
+import {addRouteAll} from './dynamic'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -17,6 +18,6 @@ const router = createRouter({
         {path: '/:pathMatch(.*)*', component: () => import("@/views/error/NotFoundView.vue")}
     ],
 })
-const registeredNames = registerDynamicRoutes(router, adminMenuRules)
-console.log('已注册动态路由：', registeredNames)
+addRouteAll(router, adminMenuRules)
+// console.log('已注册动态路由：', registeredNames)
 export default router
