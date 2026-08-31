@@ -30,6 +30,11 @@ function addRouteItem(router: Router, rule: AdminMenuRule, viewComponent: ViewCo
         path: rule.path,
         name: rule.name,
         component: viewComponent,
+        meta:{
+            title: rule.title,
+            tab: true,
+            cacheName: rule.cacheName
+        }
     }
     router.addRoute('admin', routeBaseInfo)
     // registeredNames.push(rule.name)

@@ -6,6 +6,7 @@ export interface AdminMenuRule {
     menuType?: 'tab' | 'link'
     component?: string
     children?: AdminMenuRule[]
+    cacheName?: string
 }
 
 
@@ -16,7 +17,8 @@ export const adminMenuRules: AdminMenuRule[] = [
         name: "admin-home",
         path: "home",
         title: "首页",
-        type: "menu"
+        type: "menu",
+        cacheName: "HomeView"
     },
     // {component: "/src/views/user/UserDetailView.vue", menuType: "tab", name: "user-detail", path: "users/:id", title: "用户详情", type: "menu"}
     {
@@ -29,7 +31,8 @@ export const adminMenuRules: AdminMenuRule[] = [
                         name: "user-detail",
                         path: "users/:id",
                         title: "用户详情",
-                        type: "menu"
+                        type: "menu",
+                        cacheName: 'UserDetailView',
                     }
                 ]
             }

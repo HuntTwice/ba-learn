@@ -12,6 +12,8 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import {useUserStore} from "@/stores/user.ts";
+
+defineOptions({ name: 'HomeView' })
 const userStore = useUserStore()
 function mockLogin(){
   userStore.setUser({
