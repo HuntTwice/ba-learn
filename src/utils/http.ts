@@ -1,6 +1,8 @@
 import axios from "axios";
 import type {ApiResponse} from "@/api/types.ts";
 import type {AxiosRequestConfig} from 'axios'
+import {useUserStore} from "@/stores/user.ts";
+import {storeToRefs} from "pinia";
 
 export const http = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -9,9 +11,10 @@ export const http = axios.create({
 
 
 http.interceptors.request.use((config) => {
-    const token = sessionStorage.getItem("token")
-    if (token)
-        config.headers.Authorization = `Bearer ${token}`
+    // const token = sessionStorage.getItem("token")
+    const userStore = useUserStore()
+    if (userStore.token)
+        config.headers.Authorization = `Bearer ${userStore.token}`
     return config
 });
 

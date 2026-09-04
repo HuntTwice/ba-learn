@@ -3,6 +3,7 @@
 
 import {request} from "@/utils/http.ts";
 import type {User} from "@/api/types.ts";
+import type {UserProfile} from "@/stores/user.ts";
 
 export interface UserQuery {
     page: number

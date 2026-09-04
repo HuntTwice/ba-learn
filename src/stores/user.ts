@@ -6,6 +6,7 @@ export interface UserProfile {
     nickname: string
     token: string
 }
+
 export const useUserStore = defineStore('user', () => {
     const id = ref(0)
     const username = ref('')
@@ -22,6 +23,7 @@ export const useUserStore = defineStore('user', () => {
         username.value = profile.username
         nickname.value = profile.nickname
         token.value = profile.token
+
     }
 
     function clearUser() {
@@ -29,6 +31,7 @@ export const useUserStore = defineStore('user', () => {
         nickname.value = ''
         username.value = ''
         token.value = ''
+
     }
     return {
         id,
@@ -42,4 +45,8 @@ export const useUserStore = defineStore('user', () => {
     }
 
 
-})
+},   {
+    persist: {
+        key: 'ba-learn-user',
+    },
+},)

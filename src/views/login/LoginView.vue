@@ -8,15 +8,14 @@
       </div>
       <div class="form-panel">
         <div>标题</div>
-        <el-form :model="form" class="login-form">
-          <el-form-item>
+        <el-form :model="form" class="login-form" :rules="rules" ref="formRef">
+          <el-form-item prop="username">
             <el-input type="text" placeholder="输入账号" v-model="form.username"></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input type="password" placeholder="输入密码" v-model="form.password" show-password></el-input>
           </el-form-item>
-          <el-checkbox v-model="form.remember">保持登录</el-checkbox>
-          <el-button class="login-button" type="primary" @click="handleSubmit">登录</el-button>
+          <el-button class="login-button" type="primary" @click="handleSubmit" :loading="submitting">登录</el-button>
         </el-form>
         <p v-if="message" class="result-message">
           {{ message }}
@@ -29,16 +28,56 @@
 <script setup lang="ts">
 import {reactive, ref} from 'vue'
 import { useRouter } from 'vue-router'
-const message = ref('')
-const router = useRouter();
-function handleSubmit() {
-  router.push('/admin/home')
-}
+import type {FormInstance, FormRules} from 'element-plus'
+import {useUserStore} from "@/stores/user.ts";
+import {login} from "@/api/auth.ts";
+
+const formRef = ref<FormInstance>()
 const form = reactive({
   username: '',
   password: '',
-  remember: false,
 })
+const rules = reactive<FormRules<typeof form>>({
+  username: [
+    {required: true, message: '请输入账号', trigger: 'blur'},
+  ],
+  password: [
+    {required: true, message: '请输入密码', trigger: 'blur'},
+    {min: 6, message: '至少输入6位密码', trigger: 'blur'}
+  ]
+})
+const message = ref('')
+const router = useRouter()
+const userStore = useUserStore()
+const submitting = ref(false)
+
+
+
+async function handleSubmit() {
+  if (submitting.value) return
+  message.value = ''
+  if (!formRef.value) return
+  const valid = await formRef.value.validate().catch(() => false)
+  if (!valid) return
+  submitting.value = true
+
+    const result = await login({
+      username: form.username.trim(),
+      password: form.password,
+    }).then(res=>{
+      userStore.setUser(res)
+      form.password = ''
+      router.push('/admin/home')
+
+    }).catch(error=>{
+      message.value =
+          error instanceof Error ? error.message : '登录未完成，请稍后重试'
+    }).finally(()=>{
+      submitting.value = false
+
+    })
+  }
+
 </script>
 
 

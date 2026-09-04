@@ -6,9 +6,11 @@ import router from './router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import './styles/global.css'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const app = createApp(App)
 
-const pinia = createPinia();
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 app.use(ElementPlus)
 app.use(router)
